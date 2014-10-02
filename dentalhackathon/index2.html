@@ -1,0 +1,431 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <link rel="stylesheet" href="https://netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css" >
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jasny-bootstrap/3.1.3/css/jasny-bootstrap.min.css">
+    <link rel="stylesheet" href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.10.2/themes/smoothness/jquery-ui.min.css">
+    <script src="https://code.jquery.com/jquery-1.10.2.min.js"></script>
+    <script src="https://netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script>
+    <script src=https://cdnjs.cloudflare.com/ajax/libs/dat-gui/0.5/dat.gui.js></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jasny-bootstrap/3.1.3/js/jasny-bootstrap.min.js"></script>
+		<script src="./three/build/three.min.js"></script>
+		<script src="./three/examples/js/loaders/OBJLoader.js"></script>
+		<script src="./three/examples/js/controls/OrbitControls.js"></script>
+
+		<script src="./three/examples/js/Detector.js"></script>
+		<script src="./three/examples/js/libs/stats.min.js"></script>
+		<script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.10.2/jquery-ui.min.js"></script>
+
+    <style>
+      html, body {
+          height: 100%;
+          margin:0;
+          overflow:hidden;
+        }
+        
+        .navbar-toggle {
+          float: right;
+          margin-left: 15px;
+        }
+        
+        .navmenu {
+          z-index: 1;
+        }
+        .project
+        {
+        position:absolute;
+        left:15px;
+        top:-15px;
+        z-index:1;
+        }
+        .canvas {
+          position: relative;
+          left: 0;
+          z-index: 2;
+          min-height: 100%;
+          padding: 50px 0 0 0;
+          background: #fff;
+        }
+        
+        @media (min-width: 0) {
+          .navbar-toggle {
+            display: block; /* force showing the toggle */
+          }
+        }
+        
+        @media (min-width: 2000px) {
+          body {
+            padding: 0;
+             margin:0;
+            overflow:hidden;
+          }
+          .navbar {
+            right: auto;
+            background-color: transparent;
+            border: none;
+          }
+          .navbar-default {
+            background-color: transparent;
+            border-color: transparent;
+          }
+          .canvas {
+            padding: 0;
+          }
+        }
+        .styled-select {
+		   background: transparent;
+		   width: 90%;
+		   padding: 5px;
+		   padding-left: 13px;
+		   margin-top: 5px;
+		   color: red;
+		   font-size: 16px;
+		   line-height: 1;
+		   border: 0;
+		   border-radius: 0;
+		   height: 34px;
+		   -webkit-appearance: none;
+	   }
+	   .nudge {
+	   		padding-left:13px;
+	   		padding-right:13px;
+	   }
+      </style>
+  </head>
+
+  <body>
+    
+    <div class="navmenu navmenu-default navmenu-fixed-right offcanvas">
+      <ul class="nav navmenu-nav">
+        <li style="padding-top:25px;padding-left:13px;" onclick="$('.showme1').show();"><b>Patient Prescription</b></li>
+        <li><a class="showme1" style="display:none;">Drug Timeline Viewer</a></li>
+        <li style="padding-top:25px;padding-left:13px;" onclick="$('.showme2').show();"><b>Patient Documents</b></li>
+        <li><a class="showme2" style="display:none;">Ortho Viewer</a></li>
+         <li style="padding-top:25px;padding-left:13px;" onclick="loadJS('Project2.rvt.js')"><b>Patient Clinical Notes</b></li>
+         <li style="padding-top:25px;padding-left:13px;" onclick="loadDAE('models3/maxilla.dae')"><b>Patient Referrals</b></li>
+         <li style="padding-top:25px;padding-left:13px;" onclick="loadJS('models3/incisor.obj')"><b>Appointments</b></li>
+         <li style="padding-top:25px;padding-left:13px;" onclick="loadJS('models3/mandible.obj')"><b>Patients Medical Alerts</b></li>
+        <li style="padding-top:25px;padding-left:13px;"><b>CONTROLS</b></li>
+        <li><div class="nudge">Tooth Forward/Back</div></li>
+        <li class="nudge">
+            <div id="sliderx"></div>
+        </li>
+        <li><div class="nudge">Tooth Left/Right</div></li>
+        <li class="nudge">
+            <div id="slidery"></div>
+        </li>
+        <li><div class="nudge">Tooth Up/Down</div></li>
+        <li class="nudge">
+            <div id="sliderz"></div>
+        </li>
+        <li><div class="nudge">Jaw Tilt</div></li>
+        <li class="nudge">
+            <div id="slidertilt"></div>
+        </li>
+       <li style="padding-top:25px;padding-left:13px;"><b>CAMERA</b></li>
+        <li><a onclick="resetCamera()">Reset View</a></li>
+        <li><a onclick="zoomExtents()">Zoom Extents</a></li>
+      </ul>
+    </div>
+
+    <div>
+
+    <script>
+
+
+			var container, stats;
+
+			var camera, scene, renderer;
+
+			var mouseX = 0, mouseY = 0;
+
+			var windowHalfX = window.innerWidth / 2;
+			var windowHalfY = window.innerHeight / 2;
+			var tooth, maxilla;
+
+
+			
+			$(function() {
+				$( "#slidertilt" ).slider({
+					range: "min",
+					min: -10,
+					max: 100,
+					value: 0,
+					slide: function( event, ui ) {
+						//$( ".showme1" ).text( ui.value );
+						//highlightgantt(ui.value);
+						if (typeof maxilla != "undefined"){
+							//tooth.position.y = month.value;
+							maxilla.rotation.x = -ui.value/400;
+							maxilla.position.z = (0.4*ui.value) -100;
+							maxilla.position.y = -(0.05*ui.value);
+							//tooth.rotation.y += Math.random();			
+						}
+					}
+				});
+				//highlightgantt( $( "#slider" ).slider( "value" ) );
+			});			
+			$(function() {
+				$( "#sliderx" ).slider({
+					range: "min",
+					min: 0,
+					max: 100,
+					value: 0,
+					slide: function( event, ui ) {
+						//$( ".showme1" ).text( ui.value );
+						//highlightgantt(ui.value);
+						if (typeof tooth != "undefined"){
+							tooth.position.y = ui.value/10;
+//<!--							tooth.position.x = day.value -100;-->
+//<!--							tooth.position.z = hour.value -100;-->
+							//tooth.rotation.y += Math.random();			
+						}
+					}
+				});
+				//highlightgantt( $( "#slider" ).slider( "value" ) );
+			});			
+			$(function() {
+				$( "#slidery" ).slider({
+					range: "min",
+					min: -30,
+					max: 70,
+					value: 0,
+					slide: function( event, ui ) {
+						$( ".showme1" ).text( ui.value );
+						if (typeof tooth != "undefined"){
+							//tooth.position.y = ui.value/10;
+							tooth.position.x = (ui.value/10) -100;
+//<!--							tooth.position.z = hour.value -100;-->
+							//tooth.rotation.y += Math.random();			
+						}
+						
+						//highlightgantt(ui.value);
+					}
+				});
+				//highlightgantt( $( "#slider" ).slider( "value" ) );
+			});			
+			$(function() {
+				$( "#sliderz" ).slider({
+					range: "min",
+					min: 0,
+					max: 100,
+					value: 0,
+					slide: function( event, ui ) {
+						//$( ".showme1" ).text( ui.value );
+						//highlightgantt(ui.value);
+						if (typeof tooth != "undefined"){
+							//tooth.position.y = ui.value/10;
+							//tooth.position.x = (ui.value/10) -100;
+							tooth.position.z = ui.value/10 -100;
+							//tooth.rotation.y += Math.random();			
+						}
+					}
+				});
+				//highlightgantt( $( "#slider" ).slider( "value" ) );
+			});
+			
+			init();
+			animate();
+			//alert(month.value);//
+
+
+			function init() {
+
+				container = document.createElement( 'div' );
+				document.body.appendChild( container );
+
+				camera = new THREE.PerspectiveCamera( 45, window.innerWidth / window.innerHeight, 1, 2000 );
+				camera.position.z = 100;
+
+				// scene
+
+				scene = new THREE.Scene();
+
+				var ambient = new THREE.AmbientLight( 0x101030 );
+				scene.add( ambient );
+
+				var directionalLight = new THREE.DirectionalLight( 0xffeedd );
+				directionalLight.position.set( 0, 0, 1 );
+				scene.add( directionalLight );
+
+				// texture
+
+				var manager = new THREE.LoadingManager();
+				manager.onProgress = function ( item, loaded, total ) {
+
+					console.log( item, loaded, total );
+
+				};
+
+<!--				var texture = new THREE.Texture();-->
+
+<!--				var loader = new THREE.ImageLoader( manager );-->
+<!--				loader.load( 'textures/UV_Grid_Sm.jpg', function ( image ) {-->
+
+<!--					texture.image = image;-->
+<!--					texture.needsUpdate = true;-->
+
+<!--				} );-->
+
+				// model
+
+				var loader = new THREE.OBJLoader( manager );
+				loader.load( 'three/examples/obj/mandible2.obj', function ( object ) {
+
+					object.traverse( function ( child ) {
+
+						if ( child instanceof THREE.Mesh ) {
+
+							//child.material.map = texture;
+
+						}
+
+					} );
+
+					object.position.y = - 0;
+					object.position.z = - 100;
+					object.position.x = - 100;
+					scene.add( object );
+
+				} );				// model
+
+				var loader = new THREE.OBJLoader( manager );
+				loader.load( 'three/examples/obj/maxilla2.obj', function ( object ) {
+
+					object.traverse( function ( child ) {
+
+						if ( child instanceof THREE.Mesh ) {
+
+							//child.material.map = texture;
+
+						}
+
+					} );
+
+					//object.rotation.x = -3.1415927/8;
+					object.position.y = - 0;
+					object.position.z = - 100;
+					object.position.x = - 100;
+					maxilla = object;
+					scene.add( maxilla );
+
+				} );				// model
+
+				var loader = new THREE.OBJLoader( manager );
+				loader.load( 'three/examples/obj/molar2.obj', function ( object ) {
+
+					object.traverse( function ( child ) {
+
+						if ( child instanceof THREE.Mesh ) {
+
+							//child.material.map = texture;
+							child.material.color.setHex(0xff0000);
+
+						}
+
+					} );
+
+					object.position.y = - 0;
+					object.position.z = - 100;
+					object.position.x = - 100;
+					tooth = object;
+					scene.add( tooth );
+
+				} );
+
+				//
+
+				renderer = new THREE.WebGLRenderer();
+				renderer.setSize( window.innerWidth, window.innerHeight );
+				container.appendChild( renderer.domElement );
+
+				//document.addEventListener( 'mousemove', onDocumentMouseMove, false );
+				controls = new THREE.OrbitControls( camera, renderer.domElement );
+
+				//
+
+				window.addEventListener( 'resize', onWindowResize, false );
+
+			}
+
+			function onWindowResize() {
+
+				windowHalfX = window.innerWidth / 2;
+				windowHalfY = window.innerHeight / 2;
+
+				camera.aspect = window.innerWidth / window.innerHeight;
+				camera.updateProjectionMatrix();
+
+				renderer.setSize( window.innerWidth, window.innerHeight );
+
+			}
+
+			function onDocumentMouseMove( event ) {
+
+				mouseX = ( event.clientX - windowHalfX ) / 2;
+				mouseY = ( event.clientY - windowHalfY ) / 2;
+
+			}
+			
+			function updateLight () {
+<!--				if (typeof tooth != "undefined"){-->
+<!--					tooth.position.y = month.value;-->
+<!--					tooth.position.x = day.value -100;-->
+<!--					tooth.position.z = hour.value -100;-->
+<!--					//tooth.rotation.y += Math.random();			-->
+<!--				}-->
+				
+			}
+			
+			function tilthead () {
+<!--				if (typeof maxilla != "undefined"){-->
+<!--					//tooth.position.y = month.value;-->
+<!--					maxilla.rotation.x = -tilt.value/40;-->
+<!--					maxilla.position.z = (4*tilt.value) -100;-->
+<!--					maxilla.position.y = -(0.5*tilt.value);-->
+<!--					//tooth.rotation.y += Math.random();			-->
+<!--				}-->
+				
+			}
+
+			//
+
+			function animate() {
+
+				requestAnimationFrame( animate );
+				render();
+
+			}
+
+			function render() {
+
+				//camera.position.x += ( mouseX - camera.position.x ) * .05;
+				//camera.position.y += ( - mouseY - camera.position.y ) * .05;
+
+				//camera.lookAt( scene.position );
+				if (typeof tooth != "undefined"){
+					//tooth.position.y += Math.random()-0.5;
+					//tooth.rotation.y += Math.random();			
+				}
+				//tooth.material.color.setHex(0xff0000);
+
+
+				renderer.render( scene, camera );
+
+			}   
+    
+    </script>
+    </div>
+    
+    <div class="canvas">
+      <div style="background-color: transparent;border-color: transparent;" class="navbar navbar-default navbar-fixed-top">
+        <h1 class="project"><b>Dentrix Hackathon</b></h1> 
+        <button style="background-color: rgb(240,240,240);" type="button" class="navbar-toggle expand" data-toggle="offcanvas" data-target=".navmenu" data-canvas="body">
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
+    </div>
+  </div>
+  </body>
+</html>
