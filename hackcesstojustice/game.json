@@ -1,0 +1,112 @@
+[
+	{
+		"description": "Your cousin asks you to go to Springfield, a city two hours away from where you live to pick up a necklace she had ordered at a store.  She can’t go there because she has work.  She tells you it’s a birthday present for her daughter, which is the next day.  She says she doesn’t know the name of the store. She says she took the bus walked about 40 minutes and found the store.  She gives you a receipt from the store that says the store’s address is 53 Main Street.  \nYou take the bus into Springfield and get off at the first stop and walk to the corner to see where you are.   You can’t tell because the streets don’t have signs on them, do you:",
+		"title": "The Scenario",
+		"options": [
+						{"op": "Call your cousin on your phone to ask for more information.", "next": 1, "legalliteracy" : 3},
+						{"op": "Go to an app on your phone to get directions", "next": 2, "techliteracy" : 1}
+		]
+	},
+	{
+		"description": "Your cousin says that she remembers walking down a street with a very tall building with green glass at the end of it and then going right.  You see the building and walk toward it.  When you get near it, you can’t tell where you are supposed to turn, do you",
+		"title": "The phonecall",
+		"options": [
+						{"op": "Go up to a uniformed guard to ask which way is Main Street.", "next": 3, "socialliteracy" : 1},
+						{"op": "Pick the first street you see on the right and decide to go down it", "next": 4}
+		]
+	},
+	{
+		"description": "The app doesn’t bring up the directions so you call your cousin who says she remembers walking down a street with a very tall building with green glass at the end of it and then going right.  You see the building and walk toward it.  When you get near it, you can’t tell where you are supposed to turn, would you",
+		"title": "On the street",
+		"options": [
+						{"op": "Go up to a uniformed guard to ask which way is Main Street.", "next": 3, "socialliteracy" : 1},
+						{"op": "You decide to try the first street you see toward the right.", "next": 4}
+		]
+	},
+	{
+		"description": "The guard points down a street and says “walk a few blocks until you see the ‘Browndriart” and turn left.  You don’t know what the Browndriat is so you:",
+		"title": "The guard",
+		"options": [
+						{"op": "Ask the guard “what is the Browndriart?”", "next": 5, "socialliteracy" : 1},
+						{"op": "Decide to walk in the direction the guard pointed.", "next": 6}
+		]
+	},
+	{
+		"description": "You walk down the street you saw and realize that it’s at dead-end.  You decide to walk back to the guard to ask which way is Main Street. The guard points down a street and says “walk a few blocks until you see the ‘Browndriart” and turn left.  You don’t know what the Browndriat is so you:",
+		"title": "Dead-end?",
+		"options": [
+						{"op": "Ask the guard “what is the Browndriart?”", "next": 5, "socialliteracy" : 1},
+						{"op": "b. Decide to walk in the direction the guard pointed.", "next": 6}
+		]
+	},
+	{
+		"description": "The guard says that Browndriart is the name for the large curved brown building at the end of the street. You walk down that street for a while but don’t see any large curved brown building.  By now you are tired and hungry.  You want to grab something to eat, but you don’t see any restaurants right near you, so you:",
+		"title": "The guard",
+		"options": [
+						{"op": "Pull out your phone to look for a restaurant on google.", "next": 7, "techliteracy" : 1},
+						{"op": "Walk in the direction of a street that looks busy.", "next": 7}
+		]
+	},
+	{
+		"description": "You walk in the direction the guard said for a while and realize that you are tired and hungry. You want to grab something to eat, but you don’t see any restaurants right nearby, so you:",
+		"title": "Food break",
+		"options": [
+						{"op": "Pull out your phone to look for a restaurant on Google.", "next": 7, "techliteracy" : 1},
+						{"op": "Walk in the direction of a street that looks busy.", "next": 7}
+		]
+	},
+	{
+		"description": "You find a restaurant that looks okay. You sit at the counter, order some food, and eat.  When the waiter brings the check, you notice that the total is two dollars more than it should be.  You:",
+		"title": "Decision",
+		"options": [
+						{"op": "Tell the waiter that he made a mistake.", "next": 8, "socialliteracy" : 1},
+						{"op": "Pay the extra two dollars and get going.", "next": 9}
+		]
+	},
+	{
+		"description": "The waiter corrects the mistake.  You go back out and walk in the direction the guard said. You walk two blocks and run into a cousin you haven’t seen in a long time.  She is is all dressed up.   She says she is celebrating her mother’s 80th birthday at a restaurant nearby and asks you to drop in to say hello to the family.   You decide to go.  There are about fifty people at the party.  Your cousin asks you in whisper to say a few words in honor of her mother.  The mother took care of you often when you were growing up.  You:",
+		"title": "The party",
+		"options": [
+						{"op": "Decide to talk about your good memories.", "next": 10, "socialliteracy" : 1},
+						{"op": "Politely say you need to get going and quietly leave the party.", "next": 11}
+		]
+	},
+	{
+		"description": "After you pay you go back out and walk in the direction the guard said. You walk two blocks and run into a cousin you haven’t seen in a long time.  She is all dressed up.   She says she is celebrating her mother’s 80th birthday at a restaurant nearby and asks you to drop in to say hello to the family.   You decide to go.  There are about fifty people at the party.  Your cousin asks you in whisper to say a few words in honor of her mother.  The mother took care of you often when you were growing up.  You:",
+		"title": "The party",
+		"options": [
+						{"op": "Decide to say a few words about your good memories", "next": 10, "socialliteracy" : 1},
+						{"op": "Politely say you need to get going and quietly leave the party.", "next": 11}
+		]
+	},
+	{
+		"description": "After you say a few words, everyone thanks you and you leave the party.  Back outside you walk another block and see that you are on Main Street.  You can’t tell which way to walk.  You:",
+		"title": "Main Street",
+		"options": [
+						{"op": "Walk a little way down the block to figure out which way the numbers are going", "next": 12, "problemsolving" : 1},
+						{"op": "Call your cousin to ask her which way you should go", "next": 13}
+		]
+	},
+	{
+		"description": "Back outside you walk another block and see that you are on Main Street.  You can’t tell which way to walk.  You:",
+		"title": "Main Street",
+		"options": [
+						{"op": "Walk a little way down the block to figure out what order the numbers on the buildings are going", "next": 12, "problemsolving" : 1},
+						{"op": "You call your cousin to ask her which way you should go.", "next": 13}
+		]
+	},
+	{
+		"description": "Your cousin tells you she thinks the store is next to a pharmacy.  You see a pharmacy across the street.  You cross the street and see the store next to the pharmacy.",
+		"title": "Final Destination",
+		"options": [
+						{"op": "You go in to get the present.", "next": "end"}
+		]
+	},
+	{
+		"description": "You figure out the way the numbers go and arrive at a store at 53 Main Street.",
+		"title": "Final Destination",
+		"options": [
+						{"op": "You go in to get the present.", "next": "end"}
+		]
+	}
+]

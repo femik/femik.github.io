@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Bootstrap 101 Template</title>
+
+    <!-- Bootstrap -->
+    <link rel="stylesheet" href="bootstrap.min.css">
+    <link rel="stylesheet" href="bootstrap-theme.min.css">
+    <link rel="stylesheet" href="jquery-ui.css">
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+	<style>
+		body {
+			background-image: url("https://i.imgur.com/jXNikZf.jpg");
+		}
+		.option {
+		    padding: 15px;
+			background-color: #fdf6e3;
+			color: #657b83;
+			border: 1px solid rgba(86, 61, 124, 0.2);
+			margin: 15px;
+			text-align:center;
+		}
+		.description {
+		    padding: 15px;
+			background-color: #002b36;
+			color: #839496;
+			border: 1px solid rgba(86, 61, 124, 0.2);
+			margin: 15px;
+		}
+		.optioncontainer {
+		}
+		.pagecontainer{
+		}
+		.splash {
+			position: absolute;
+ 			top: 5px;
+ 			right: 5px;
+ 			color: #002b36;
+		    padding:  10px 10px 0px 10px;
+ 			background-color: #d33682;
+		}
+		.playagain {
+ 			color: #002b36;
+ 			background-color: #d33682;
+			border: 1px solid rgba(86, 61, 124, 0.2);
+			margin: 15px;
+			text-align:center;
+		    padding: 15px;
+		}
+	</style>
+  </head>
+  <body>
+  	<div class="pagecontainer">
+	</div>
+	<div class="endpage" >
+		<div class=description><h2>Mission Complete</h2><p class=nay>Based on the way you have answered these questions and our magical algorithms, we recommend that you seek legal advice before attempting this legal action.</p><p class=yay>Based on the way you have answered these questions and our magical algorithms, we think that you are ready to represent yourself in this case.</p><p>Here are some links to get you started.</p><p class=details>Click <strong>here</strong> for a more detailed analysis. Should you need to represent yourself, this may be useful to find areas you may need to work on.</p><p class=yayyay>You were particularly strong in technical literacy. To complete this case you will need to print documents, fill out online forms, email various people, manage your digital documents and make accounts on government websites. We also recommend tracking the large number of deadlines using a calendaring app.</p><p class=naynay>You were particularly weak in technical literacy. To complete this case you will need to print documents, fill out online forms, email various people, manage your digital documents and make accounts on government websites. We also recommend tracking the large number of deadlines using a calendaring app.</p></div>
+	</div>
+	<div class="endpage eform"><div class="description"><p>Please assist us by leaving contacts details to follow up on your decision.</p>E-mail: <input type="email" name="email"><br> Telephone: <input type="tel" name="usrtel"><br><button onclick="$('.eform').fadeOut();">Submit</button></div></div>
+	<div class="playagain">Play Again</div>
+	<div class="splash"><strong>What would you do?</strong><p>Choose an option</p></div>
+	<div class="footer">bottom stuff</div>
+	<audio class="lazer" id="audio1">
+	  <source src="audio/laser4.mp3" type="audio/mpeg">
+	Your browser does not support the audio element.
+	</audio> 
+	<audio class="powerup">
+	  <source src="audio/powerUp1.mp3" type="audio/mpeg">
+	Your browser does not support the audio element.
+	</audio> 
+	<audio class="endsound">
+	  <source src="audio/powerUp1.mp3" type="audio/mpeg">
+	Your browser does not support the audio element.
+	</audio> 
+    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+    <script src="cordova.js"></script>
+    <script src="jquery.min.js"></script>
+    <!-- Include all compiled plugins (below), or include individual files as needed -->
+    <script src="bootstrap.min.js"></script>
+    <script src="lodash.min.js"></script>
+    <script src="jquery-ui.min.js"></script>
+    <script>
+
+		var jsonobject = "";
+		var techliteracy = 0;
+		var socialliteracy = 0;
+		var problemsolving = 0;
+		var legalliteracy = 0;
+		$(".endpage").hide();
+		$(".playagain").hide();
+		$.getJSON("game.json",
+        function(data){
+            //alert(data[0]['title']);
+            jsonobject = data;
+            goToPage(0)
+        });
+
+
+		function goToPage(page) {
+			if (page == "end"){
+				$(".endsound")[0].play();
+				$(".pagecontainer").hide();
+				$(".splash").hide();
+				$(".playagain").fadeIn();
+				$(".endpage").fadeIn();
+				$(".playagain").click(function (){location.reload();});
+				//alert([techliteracy, legalliteracy, socialliteracy, problemsolving]);
+				var finalscore = techliteracy +legalliteracy+socialliteracy+problemsolving;
+				
+				$(".naynay").hide();
+				$(".yayyay").hide();
+				if (finalscore <= 8){
+					$(".nay").hide();
+				} else {$(".yay").hide();}
+				$(".details").click(function(){
+				
+					if (finalscore <= 8){
+						$(".naynay").fadeIn();
+					} else {$(".yayyay").fadeIn();}
+				});
+				
+			} else {
+				$(".powerup")[0].play(); 
+				list = '<div class=description style="display: none;"><h3><%- title %></h3><%- description %></div><div class="optioncontainer"><% _.forEach(options, function(name) { %><div class="option" style="display: none;"><%- name["op"] %></div><% }); %></div>';
+				$(".pagecontainer").html(_.template(list, jsonobject[page]));
+				$(".description").show("fade", {}, 400);
+				$( ".option" ).each(function(i){
+					$(this).delay(i*400+400).show("fade", {}, 400);
+					$(this).click(function () {
+						$(this).css('background-color', '#d33682');
+						if (jsonobject[page]['options'][i]['legalliteracy']) {
+							legalliteracy = legalliteracy + jsonobject[page]['options'][i]['legalliteracy'];
+						}
+						if (jsonobject[page]['options'][i]['techliteracy']) {
+							techliteracy = techliteracy + jsonobject[page]['options'][i]['techliteracy'];
+						}
+						if (jsonobject[page]['options'][i]['socialliteracy']) {
+							socialliteracy = socialliteracy + jsonobject[page]['options'][i]['socialliteracy'];
+						}
+						if (jsonobject[page]['options'][i]['problemsolving']) {
+							problemsolving = problemsolving + jsonobject[page]['options'][i]['problemsolving'];
+						}
+						$(".lazer")[0].play(); 
+						setTimeout(function(){goToPage(jsonobject[page]['options'][i]['next']);/* Look mah! No name! */},1000);
+						
+					});
+				});				
+			}
+		}
+    </script>
+  </body>
+</html>
