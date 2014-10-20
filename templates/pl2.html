@@ -1,0 +1,51 @@
+Ohshir: detail view for <span>{{phoneId}}</span>
+  <ul  ng-controller="PhoneListCtrl">
+  
+	Search: <input ng-model="query">
+    <li ng-repeat="phone in phones | filter:query" class="thumbnail phone-listing">
+      {{phone.name}}
+      <p>{{phone.snippet | lowercase}}</p>
+    </li>
+  </ul>
+  <style>
+  .phone-listing.ng-enter,
+.phone-listing.ng-leave,
+.phone-listing.ng-move {
+  -webkit-transition: 0.5s linear all;
+  -moz-transition: 0.5s linear all;
+  -o-transition: 0.5s linear all;
+  transition: 0.5s linear all;
+}
+  .phone-listing.ng-enter-stagger,
+.phone-listing.ng-leave-stagger{
+  transition-delay: 0.5s;
+  transition-duration: 0;
+  -moz-transition-delay: 0.5s;
+  -moz-transition-duration: 0;
+}
+
+.phone-listing.ng-enter,
+.phone-listing.ng-move {
+  opacity: 0;
+  height: 0;
+  overflow: hidden;
+}
+
+.phone-listing.ng-move.ng-move-active,
+.phone-listing.ng-enter.ng-enter-active {
+  opacity: 1;
+  height: auto;
+}
+
+.phone-listing.ng-leave {
+  opacity: 1;
+  overflow: hidden;
+}
+
+.phone-listing.ng-leave.ng-leave-active {
+  opacity: 0;
+  height: 0;
+  padding-top: 0;
+  padding-bottom: 0;
+}
+</style>

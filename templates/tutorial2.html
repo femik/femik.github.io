@@ -1,0 +1,127 @@
+<html ng-app="phonecatApp">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Bootstrap 101 Template {{query}}</title>
+
+    <!-- Bootstrap -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
+<link href='http://fonts.googleapis.com/css?family=Montserrat' rel='stylesheet' type='text/css'>
+<link href='http://fonts.googleapis.com/css?family=Gloria+Hallelujah' rel='stylesheet' type='text/css'>
+	<!-- Optional theme -->
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap-theme.min.css">
+	<link href="//maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet">
+
+</head>
+<body>
+	<style>
+	.view-container {
+position: relative;
+}
+
+.view-frame.ng-enter, .view-frame.ng-leave {
+background: white;
+position: absolute;
+top: 0;
+left: 0;
+right: 0;
+}
+
+.view-frame.ng-enter {
+-webkit-animation: 0.5s fade-in;
+-moz-animation: 0.5s fade-in;
+-o-animation: 0.5s fade-in;
+animation: 0.5s fade-in;
+z-index: 100;
+}
+
+.view-frame.ng-leave {
+-webkit-animation: 0.5s fade-out;
+-moz-animation: 0.5s fade-out;
+-o-animation: 0.5s fade-out;
+animation: 0.5s fade-out;
+z-index:99;
+}
+
+@keyframes fade-in {
+from { opacity: 0; }
+to { opacity: 1; }
+}
+@-moz-keyframes fade-in {
+from { opacity: 0; }
+to { opacity: 1; }
+}
+@-webkit-keyframes fade-in {
+from { opacity: 0; }
+to { opacity: 1; }
+}
+
+@keyframes fade-out {
+from { opacity: 1; }
+to { opacity: 0; }
+}
+@-moz-keyframes fade-out {
+from { opacity: 1; }
+to { opacity: 0; }
+}
+@-webkit-keyframes fade-out {
+from { opacity: 1; }
+to { opacity: 0; }
+}
+	</style>
+	<h1 style="font-family: 'Gloria Hallelujah', cursive;">hey what a beutiful time of daYG ASDBNCBDEHAS the wuick brown fox jumps over th lazy dog</h1><div class="view-container">
+	<i class="fa fa-camera-retro fa-lg"></i> fa-lg
+<i class="fa fa-camera-retro fa-2x"></i> fa-2x
+<i class="fa fa-camera fa-3x"></i> fa-3x
+<i class="fa fa-users fa-4x fa-spin"></i> fa-4x
+<i class="fa fa-user fa-5x"></i> fa-5x
+<div ng-view class="view-frame"></div>
+</div>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.0/angular.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.0/angular-route.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.0/angular-animate.min.js"></script>
+    <!-- Include all compiled plugins (below), or include individual files as needed -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
+    <script>
+var phonecatApp = angular.module('phonecatApp', [
+'ngRoute',
+'phonecatAnimations',
+'phonecatControllers'
+]);
+angular.module('phonecatAnimations', ['ngAnimate']);
+phonecatApp.config(['$routeProvider',
+  function($routeProvider) {
+    $routeProvider.
+      when('/phones', {
+        templateUrl: 'pl.html',
+        controller: 'PhoneListCtrl'
+      }).
+      when('/phones/:phoneId', {
+        templateUrl: 'pl2.html',
+        controller: 'PhoneDetailCtrl'
+      }).
+      otherwise({
+        redirectTo: '/phones'
+      });
+  }]);
+var phonecatControllers = angular.module('phonecatControllers', []);
+
+phonecatControllers.controller('PhoneListCtrl', ['$scope', '$http',
+  function ($scope, $http) {
+    $http.get('a.json').success(function(data) {
+      $scope.phones = data;
+    });
+
+    $scope.orderProp = 'age';
+  }]);
+
+phonecatControllers.controller('PhoneDetailCtrl', ['$scope', '$routeParams',
+  function($scope, $routeParams) {
+    $scope.phoneId = $routeParams.phoneId;
+  }]);
+    </script>
+</body>
+</html>
