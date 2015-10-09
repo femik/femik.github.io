@@ -184,12 +184,12 @@
             zoom: 3
         });
         
-        console.log("everthing ok here?");
+        //console.log("everthing ok here?");
         
         $.getJSON("states.json", function(morejson) {
             the_statepolys.add(morejson.states.state);
             console.log(the_statepolys.length);
-            console.log(the_googlemapview.collection.length)
+            console.log(the_googlemapview.collection.length);
             the_googlemapview.render();
         });
         
