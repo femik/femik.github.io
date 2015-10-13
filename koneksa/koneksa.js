@@ -6,6 +6,12 @@
     
     var States = Backbone.Collection.extend({
         model: State,
+        url: function() {
+            return 'data.json';
+        },
+        parse:function(response) {
+            return response.data;
+        },
         comparator: function (state) {
             // sort by uninsured ratio
             return state.get("number_uninsured")/state.get("population");
@@ -13,6 +19,11 @@
     });
     
     var HighChartView = Backbone.View.extend({
+        
+        initialize: function () {
+            this.render();
+            this.collection.on("sync", this.render, this);
+        },
         
         render: function () {
             // this needs to call highchart series update
@@ -101,19 +112,6 @@
         
     });
     
-    var the_states = new States();
-    
-    var the_highchart = new HighChartView({
-        el: "#highchart", 
-        collection: the_states
-    });
-    
-    $.getJSON("data.json", function(json) {
-        the_states.add(json.data);
-        the_highchart.render();
-        // testing triggered events
-        the_states.trigger("add", "an event");
-    });
     
     
  /// GOOGLE MAPS
@@ -122,22 +120,59 @@
     var StatePoly = Backbone.Model.extend({});
     
     var StatePolys = Backbone.Collection.extend({
-        model: StatePoly
+        model: StatePoly,
+        url: function() {
+            return 'states.json';
+        },
+        parse:function(response) {
+            return response.states.state;
+        }
     });
     
-    var map;
+    //var map;
     
     var GoogleMapView = Backbone.View.extend({
+        
+        initialize: function () {
+            this.map = new google.maps.Map(document.getElementById('map'), {
+                center: {lat: 40.0034, lng: -102.0506},
+                zoom: 3
+            });
+            
+            
+            this.render();
+            this.collection.the_statepolys.on("sync", this.testrender, this);
+            this.collection.the_states.on("sync", this.testrender, this);
+        },
+        
+        testrender: function () {
+            console.log("render triggered by sync");
+            this.render();                 
+        }, //left this in to see what happens when the json loads last
+            // the sync shoudl just call this.render
+        
         render: function () {
-            console.log("drawing polys");
+            //console.log("drawing polys");
             
             // this needs to remove the previous polyline
             // and rerender on each statepolys change event
             // to make it update live
             
-            this.collection.each(function (model) {
-                this.drawpoly(model);
-            }, this);
+            if (    (this.collection.the_statepolys.length === 0) ||
+                    (this.collection.the_states.length === 0)) {
+                   console.log("missing data in map");
+            } else {
+                var ia = this.collection.the_states.map(function (model) {
+                    return parseFloat(model.get("number_insured")/model.get("population"));
+                }); //get list of ratios
+
+                this.imin = _.min(ia);
+                this.imax = _.max(ia);
+                //console.log([this.imin, this.imax]);
+                this.collection.the_statepolys.each(function (model) {
+                    this.drawpoly(model);
+                }, this);     
+            }
             
             return this;
         },
@@ -146,6 +181,14 @@
             //draws outline of state from model point data
             
             console.log(model.get("name"));
+            othermodel = this.collection.the_states.findWhere({name: model.get("name")});
+            var insuredRatio = 
+                parseFloat(othermodel.get("number_insured")/othermodel.get("population"));
+            console.log(insuredRatio);
+            
+            var scaledRatio = ((insuredRatio-this.imin)/(this.imax-this.imin))+0.05;
+            var fillColor = 'rgb(' + parseInt(255 - 255*scaledRatio) + ', ' + parseInt(255*scaledRatio) +', 65)';
+            console.log(fillColor);
             
             var convert = function (item) {
                 return { 
@@ -156,50 +199,46 @@
             
             var points = _.map(model.get("point"), convert);
             
-            var path = new google.maps.Polyline({
+            var path = new google.maps.Polygon({
                 path: points,
                 geodesic: true,
                 strokeColor: model.get("colour"),
-                strokeOpacity: 1.0,
-                strokeWeight: 2
+                strokeOpacity: 0.5,
+                strokeWeight: 1,
+                fillColor: fillColor,
+                //fillColor: '#00B1B5',
+                //fillColor: model.get("colour"), nice looking but useless
+                //fillOpacity: scaledRatio
+                fillOpacity: 0.6
             });
             
-            path.setMap(map);
+            path.setMap(this.map);
         }
     });
     
-    var the_statepolys = new StatePolys();
     
-    var the_googlemapview = new GoogleMapView({
-        el: "#map",
-        collection: the_statepolys
+    /// INITIALISE
+    
+    var the_states = new States();
+    the_states.fetch();
+    
+    var the_highchart = new HighChartView({
+        el: "#highchart", 
+        collection: the_states
     });
     
+    var the_statepolys = new StatePolys();
+    the_statepolys.fetch();
+    
     window.initMap = function () {
-        // the api calls this function when everything is loaded
-        console.log("initmap");
-        
-        map = new google.maps.Map(document.getElementById('map'), {
-            center: {lat: 40.0034, lng: -102.0506},
-            zoom: 3
+        // called by google map api when dom is ready
+        var the_googlemapview = new GoogleMapView({
+            el: "#map",
+            collection: {
+                the_statepolys: the_statepolys,
+                the_states: the_states
+            } //this appears to work as expected
         });
-        
-        //console.log("everthing ok here?");
-        
-        $.getJSON("states.json", function(morejson) {
-            the_statepolys.add(morejson.states.state);
-            console.log(the_statepolys.length);
-            console.log(the_googlemapview.collection.length);
-            the_googlemapview.render();
-        });
-        
-        var marker = new google.maps.Marker({
-            position: {lat: 40.7111596, lng: -74.0087223},
-            map: map,
-            title: 'Koneksa'
-        });
-
-        $("#map").css({height: "500px"});
     }
     
     
