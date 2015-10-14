@@ -1,20 +1,25 @@
-(function($){
+(function ($) {
    
+    'use strict';
+    
     ///HIGHCHARTS
     
     var State = Backbone.Model.extend({});
     
     var States = Backbone.Collection.extend({
         model: State,
-        url: function() {
+        url: function () {
             return 'data.json';
         },
-        parse:function(response) {
+        // data.json contains population and insurance data by state
+        
+        parse: function (response) {
             return response.data;
         },
+        
         comparator: function (state) {
             // sort by uninsured ratio
-            return state.get("number_uninsured")/state.get("population");
+            return state.get("number_uninsured") / state.get("population");
         }
     });
     
@@ -43,7 +48,7 @@
         },
         
         build_highchart_dict: function (collection) {
-            var highchart_dict = 
+            var highchart_dict =
                 {
                     chart: {
                         type: 'column',
@@ -106,7 +111,7 @@
                         name: 'Uninsured Population',
                         data: collection.map("number_uninsured")
                     }]
-                }
+                };
             return highchart_dict;
         }
         
@@ -121,15 +126,14 @@
     
     var StatePolys = Backbone.Collection.extend({
         model: StatePoly,
-        url: function() {
+        url: function () {
             return 'states.json';
         },
-        parse:function(response) {
+        //states.json contains border/outline data by state
+        parse: function (response) {
             return response.states.state;
         }
     });
-    
-    //var map;
     
     var GoogleMapView = Backbone.View.extend({
         
@@ -147,23 +151,23 @@
         
         testrender: function () {
             console.log("render triggered by sync");
-            this.render();                 
-        }, //left this in to see what happens when the json loads last
+            this.render();
+        },
+            //left this in to see what happens when the json loads last
             // the sync shoudl just call this.render
         
         render: function () {
-            //console.log("drawing polys");
             
             // this needs to remove the previous polyline
             // and rerender on each statepolys change event
             // to make it update live
             
-            if (    (this.collection.the_statepolys.length === 0) ||
+            if ((this.collection.the_statepolys.length === 0) ||
                     (this.collection.the_states.length === 0)) {
                    console.log("missing data in map");
             } else {
                 var ia = this.collection.the_states.map(function (model) {
-                    return parseFloat(model.get("number_insured")/model.get("population"));
+                    return parseFloat(model.get("number_insured") / model.get("population"));
                 }); //get list of ratios
 
                 this.imin = _.min(ia);
@@ -171,7 +175,7 @@
                 //console.log([this.imin, this.imax]);
                 this.collection.the_statepolys.each(function (model) {
                     this.drawpoly(model);
-                }, this);     
+                }, this);
             }
             
             return this;
@@ -181,19 +185,19 @@
             //draws outline of state from model point data
             
             console.log(model.get("name"));
-            othermodel = this.collection.the_states.findWhere({name: model.get("name")});
-            var insuredRatio = 
-                parseFloat(othermodel.get("number_insured")/othermodel.get("population"));
+            var othermodel = this.collection.the_states.findWhere({name: model.get("name")});
+            var insuredRatio =
+                parseFloat(othermodel.get("number_insured") / othermodel.get("population"));
             console.log(insuredRatio);
             
-            var scaledRatio = ((insuredRatio-this.imin)/(this.imax-this.imin))+0.05;
-            var fillColor = 'rgb(' + parseInt(255 - 255*scaledRatio) + ', ' + parseInt(255*scaledRatio) +', 65)';
+            var scaledRatio = ((insuredRatio - this.imin) / (this.imax - this.imin)) + 0.05;
+            var fillColor = 'rgb(' + parseInt(255 - 255 * scaledRatio, 10) + ', ' + parseInt(255 * scaledRatio, 10) + ', 65)';
             console.log(fillColor);
             
             var convert = function (item) {
-                return { 
-                    lat: parseFloat(item.lat), 
-                    lng: parseFloat(item.lng) 
+                return {
+                    lat: parseFloat(item.lat),
+                    lng: parseFloat(item.lng)
                 };
             };
             
@@ -204,7 +208,7 @@
                 geodesic: true,
                 strokeColor: model.get("colour"),
                 strokeOpacity: 0.5,
-                strokeWeight: 1,
+                strokeWeight: 0.5,
                 fillColor: fillColor,
                 //fillColor: '#00B1B5',
                 //fillColor: model.get("colour"), nice looking but useless
@@ -219,27 +223,33 @@
     
     /// INITIALISE
     
-    var the_states = new States();
-    the_states.fetch();
+    var startchart = function () {
     
-    var the_highchart = new HighChartView({
-        el: "#highchart", 
-        collection: the_states
-    });
-    
-    var the_statepolys = new StatePolys();
-    the_statepolys.fetch();
-    
-    window.initMap = function () {
-        // called by google map api when dom is ready
-        var the_googlemapview = new GoogleMapView({
-            el: "#map",
-            collection: {
-                the_statepolys: the_statepolys,
-                the_states: the_states
-            } //this appears to work as expected
+        var the_states = new States();
+        the_states.fetch();
+
+        var the_highchart = new HighChartView({
+            el: "#highchart",
+            collection: the_states
         });
-    }
+
+        var the_statepolys = new StatePolys();
+        the_statepolys.fetch();
+
+        window.initMap = function () {
+            // called by google map api when dom is ready
+            var the_googlemapview = new GoogleMapView({
+                el: "#map",
+                collection: {
+                    the_statepolys: the_statepolys,
+                    the_states: the_states
+                } //this appears to work as expected
+            });
+        };
+    
+    };
+    
+    startchart();
     
     
 })(jQuery);
