@@ -1,0 +1,31 @@
+{
+  "scene_opts": {
+    "fake_option": "the fakest of ooptions",
+    "marker_color": [1, 0, 0],
+    "marker_size": 0.5,
+    "near_threshhold": -2,
+    "far_threshhold": -4,
+    "point_size": 0.05,
+    "point_colors": {
+      "main_color": [0.7, 0.7, 0.7],
+      "far_color": [0, 0.7, 0],
+      "near_color": [0, 0, 0.7]
+    },
+    "color_scheme": [
+      { "threshhold": -4, "color": [0.7, 0.7, 0.7] },
+      { "threshhold": -2, "color": [0, 0.7, 0] },
+      { "threshhold": 1e9999, "color": [0, 0, 0.7] }
+    ],
+    "sizes": {
+      "points": 0.05,
+      "markers": 0.5,
+      "dijkstra": 0.5
+    }
+  },
+  "scene_setup_opts": {
+    "camera_position_z": 10,
+    "fog_color": "0x050505",
+    "fog_near": 2000,
+    "fog_far": 3000
+  }
+}
