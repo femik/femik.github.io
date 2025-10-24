@@ -1,0 +1,94 @@
+/* Define custom utility classes and animations that are easier to manage here than with inline Tailwind classes */
+
+/* Base styles for animated sections */
+.animated-section {
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+}
+
+/* State when the section becomes visible */
+.animated-section.is-visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* Custom styles for hero section animations */
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+@keyframes fadeInUp {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.animate-fade-in {
+    animation: fadeIn 1s ease-out forwards;
+}
+
+.animate-fade-in-delay-1 {
+    opacity: 0;
+    animation: fadeInUp 0.8s ease-out 0.3s forwards;
+}
+
+.animate-fade-in-delay-2 {
+    opacity: 0;
+    animation: fadeInUp 0.8s ease-out 0.6s forwards;
+}
+
+.animate-fade-in-delay-3 {
+    opacity: 0;
+    animation: fadeInUp 0.8s ease-out 0.9s forwards;
+}
+
+
+/* Custom component styles using @apply for better organization */
+.nav-link {
+    @apply text-gray-600 dark:text-gray-300 hover:text-sky-600 dark:hover:text-sky-400 transition-colors duration-300 font-medium relative after:content-[''] after:absolute after:left-0 after:bottom-[-4px] after:w-0 after:h-[2px] after:bg-sky-500 after:transition-all after:duration-300 hover:after:w-full;
+}
+
+.mobile-nav-link {
+    @apply text-3xl font-display font-bold text-gray-800 dark:text-gray-200 hover:text-sky-600 dark:hover:text-sky-400 transition-colors;
+}
+
+.btn {
+    @apply px-6 py-3 rounded-full font-bold text-lg transition-all duration-300 focus:outline-none focus:ring-4;
+}
+
+.btn-primary {
+    @apply bg-sky-600 text-white hover:bg-sky-700 focus:ring-sky-300 dark:focus:ring-sky-800;
+}
+
+.btn-secondary {
+    @apply bg-gray-200 text-gray-800 hover:bg-gray-300 dark:bg-gray-700 dark:text-gray-200 dark:hover:bg-gray-600 focus:ring-gray-300 dark:focus:ring-gray-600;
+}
+
+.section-title {
+    @apply text-4xl md:text-5xl font-display font-bold text-gray-900 dark:text-white mb-4;
+}
+
+.section-paragraph {
+    @apply text-lg text-gray-600 dark:text-gray-400 max-w-3xl mx-auto;
+}
+
+.skill-card {
+    @apply bg-white dark:bg-gray-800 p-8 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700 text-center;
+}
+
+.project-card {
+    @apply bg-white dark:bg-gray-800 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700 overflow-hidden transition-all duration-300 hover:shadow-xl hover:-translate-y-1;
+}
+
+.tag {
+    @apply text-sm font-medium px-3 py-1 rounded-full;
+}
+
+.btn-details {
+    @apply w-full text-center bg-sky-50 text-sky-700 dark:bg-sky-900/50 dark:text-sky-300 font-bold py-2 px-4 rounded-md hover:bg-sky-100 dark:hover:bg-sky-900 transition-colors;
+}
+
+.research-item {
+    @apply text-center md:text-left border-l-4 border-sky-500 pl-6;
+}
