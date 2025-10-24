@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>YFemi King | CAD/CAM 3D Software Engineer</title>
+    <meta name="description" content="Portfolio of a CAD/CAM automation and software development engineer.">
+
+    <!-- Tailwind CSS via CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class', // Enable dark mode using a class
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        display: ['Montserrat', 'sans-serif'],
+                    },
+                }
+            }
+        }
+    </script>
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&family=Montserrat:wght@700;800&display=swap" rel="stylesheet">
+
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="css/style.css">
+
+    <!-- Google Model Viewer -->
+    <script type="module" src="https://ajax.googleapis.com/ajax/libs/model-viewer/3.4.0/model-viewer.min.js"></script>
+</head>
+<body class="bg-white dark:bg-gray-900 text-gray-800 dark:text-gray-200 font-sans antialiased">
+
+    <!-- Header & Navbar -->
+    <header id="main-header" class="fixed top-0 left-0 right-0 z-50 bg-white/80 dark:bg-gray-900/80 backdrop-blur-sm transition-all duration-300">
+        <div class="container mx-auto px-6 py-4 flex justify-between items-center">
+            <a href="#hero" class="text-2xl font-display font-bold text-gray-900 dark:text-white">Your Name</a>
+            <nav class="hidden md:flex items-center space-x-8">
+                <a href="#about" class="nav-link">About</a>
+                <a href="#projects" class="nav-link">Projects</a>
+                <a href="#research" class="nav-link">Research</a>
+                <a href="#hackathons" class="nav-link">Hackathons</a>
+                <a href="#contact" class="nav-link">Contact</a>
+            </nav>
+            <div class="flex items-center space-x-4">
+                <button id="theme-toggle" aria-label="Toggle dark mode" class="text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-sky-500 rounded-full p-2">
+                    <i class="fas fa-sun text-xl" id="theme-toggle-light-icon"></i>
+                    <i class="fas fa-moon text-xl hidden" id="theme-toggle-dark-icon"></i>
+                </button>
+                <button id="mobile-menu-button" class="md:hidden text-gray-800 dark:text-gray-200 focus:outline-none focus:ring-2 focus:ring-sky-500 rounded">
+                    <i class="fas fa-bars text-2xl"></i>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Mobile Menu Overlay -->
+    <div id="mobile-menu" class="hidden fixed inset-0 bg-white dark:bg-gray-900 z-40 flex flex-col items-center justify-center space-y-8">
+        <button id="mobile-menu-close-button" class="absolute top-6 right-6 text-3xl text-gray-800 dark:text-gray-200">&times;</button>
+        <a href="#about" class="mobile-nav-link">About</a>
+        <a href="#projects" class="mobile-nav-link">Projects</a>
+        <a href="#research" class="mobile-nav-link">Research</a>
+        <a href="#hackathons" class="mobile-nav-link">Hackathons</a>
+        <a href="#contact" class="mobile-nav-link">Contact</a>
+    </div>
+
+    <main>
+        <!-- Hero Section -->
+        <section id="hero" class="min-h-screen flex items-center justify-center text-center bg-gray-50 dark:bg-gray-900 px-6">
+            <div class="max-w-4xl">
+                <h1 class="text-5xl md:text-7xl font-display font-extrabold text-gray-900 dark:text-white mb-4 animate-fade-in">Femi King</h1>
+                <p class="text-xl md:text-2xl font-display text-gray-700 dark:text-gray-300 mb-6 animate-fade-in-delay-1">Automating Design: Intersections of Engineering, Code, and Art.</p>
+                <p class="text-lg text-gray-600 dark:text-gray-400 max-w-2xl mx-auto mb-8 animate-fade-in-delay-2">I'm a software developer and research engineer specializing in 3D applications and CAD/CAM automation to create efficient and beautiful solutions.</p>
+                <div class="flex justify-center space-x-4 animate-fade-in-delay-3">
+                    <a href="#projects" class="btn btn-primary">View My Work</a>
+                    <a href="#contact" class="btn btn-secondary">Get In Touch</a>
+                </div>
+            </div>
+        </section>
+
+        <!-- About Me Section -->
+        <section id="about" class="py-20 md:py-32 scroll-mt-16">
+            <div class="container mx-auto px-6">
+                <div class="grid md:grid-cols-3 gap-12 items-center">
+                    <div class="md:col-span-1 flex justify-center">
+                        <img src="https://placehold.co/400x400/E2E8F0/4A5568?text=Profile" alt="A professional headshot of Your Name" class="rounded-full w-64 h-64 md:w-80 md:h-80 object-cover border-8 border-gray-200 dark:border-gray-700 shadow-lg">
+                    </div>
+                    <div class="md:col-span-2 text-center md:text-left">
+                        <h2 class="section-title">About Me</h2>
+                        <p class="section-paragraph">
+                            I studied at Sheffield University, UK, gaining a Ph.D in Engineering for my work modelling the the progression of sepsis, and it's treatment with fluids and vasoactive drugs.
+                        </p>
+                        <p class="section-paragraph mt-4">
+                            Since then, I have worked in a number of fields as a software developer and researcher, including orthotic design, furniture manufacturing, special effects and language training. My passion lies in bridging the gap between digital design and physical manufacturing through elegant code and robust automation pipelines.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Skills & Expertise Section -->
+        <section id="skills" class="py-20 md:py-32 bg-gray-50 dark:bg-gray-800/50 scroll-mt-16">
+            <div class="container mx-auto px-6 text-center">
+                <h2 class="section-title mb-12">Skills & Expertise</h2>
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
+                    <div class="skill-card">
+                        <i class="fas fa-drafting-compass text-4xl text-sky-500 mb-4"></i>
+                        <h3 class="text-xl font-bold mb-2 text-gray-900 dark:text-white">CAD/CAM</h3>
+                        <ul class="text-gray-600 dark:text-gray-400">
+                            <li>Blender</li>
+                            <li>Fusion 360</li>
+                            <li>Rhino/Grasshopper</li>
+                        </ul>
+                    </div>
+                    <div class="skill-card">
+                        <i class="fas fa-code text-4xl text-teal-500 mb-4"></i>
+                        <h3 class="text-xl font-bold mb-2 text-gray-900 dark:text-white">Software Development</h3>
+                        <ul class="text-gray-600 dark:text-gray-400">
+                            <li>Python</li>
+                            <li>Go</li>
+                            <li>JavaScript</li>
+                        </ul>
+                    </div>
+                    <div class="skill-card">
+                        <i class="fas fa-cogs text-4xl text-fuchsia-500 mb-4"></i>
+                        <h3 class="text-xl font-bold mb-2 text-gray-900 dark:text-white">Frameworks & APIs</h3>
+                        <ul class="text-gray-600 dark:text-gray-400">
+                            <li>Google Suite API</li>
+                            <li>SolidWorks API</li>
+                            <li>Three.js</li>
+                        </ul>
+                    </div>
+                    <div class="skill-card">
+                        <i class="fas fa-flask text-4xl text-amber-500 mb-4"></i>
+                        <h3 class="text-xl font-bold mb-2 text-gray-900 dark:text-white">Research & Tools</h3>
+                        <ul class="text-gray-600 dark:text-gray-400">
+                            <li>numpy</li>
+                            <li>LaTeX</li>
+                            <li>Data Analysis</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Projects Section -->
+        <section id="projects" class="py-20 md:py-32 scroll-mt-16">
+            <div class="container mx-auto px-6">
+                <h2 class="section-title text-center mb-12">Projects</h2>
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                    <!-- Project 1 -->
+                    <div class="project-card" 
+                         data-title="va3c (Architectural Model Visualization)"
+                         data-description="A project developed by a prize winning hackathon team, va3c is a Three.js based renderer for a number of formats common in the architectural industry, incnluding Revit, Rhino and others."
+                         data-media-type="model-viewer"
+                         data-media-src="https://modelviewer.dev/shared-assets/models/Astronaut.glb">
+                        <img src="https://placehold.co/800x600/34D399/FFFFFF?text=Project+1" alt="va3c (Architectural Model Visualization)" class="w-full h-48 object-cover rounded-t-lg">
+                        <div class="p-6">
+                            <h3 class="text-xl font-bold mb-2 text-gray-900 dark:text-white">va3c (Architectural Model Visualization)</h3>
+                            <p class="text-gray-600 dark:text-gray-400 mb-4">A browser based visualization tool for architectural models.</p>
+                            <div class="flex flex-wrap gap-2 mb-4">
+                                <span class="tag bg-teal-100 text-teal-800 dark:bg-teal-900 dark:text-teal-200">JS</span>
+                                <span class="tag bg-sky-100 text-sky-800 dark:bg-sky-900 dark:text-sky-200">Three.js</span>
+                            </div>
+                            <button class="btn-details">View Details</button>
+                        </div>
+                    </div>
+                    <!-- Project 2 -->
+                    <div class="project-card"
+                         data-title="Robotic Arm Simulation"
+                         data-description="Led a team of engineers, automating the process of making a custom 3D orthotic device. Built prototypes and deployed tools that reduced the time to manufacture by 80%"
+                         data-media-type="youtube"
+                         data-media-src="https://www.youtube.com/embed/mtHcbkCJ39o">
+                        <img src="https://placehold.co/800x600/60A5FA/FFFFFF?text=Project+2" alt="Orthotic Design Automation" class="w-full h-48 object-cover rounded-t-lg">
+                        <div class="p-6">
+                            <h3 class="text-xl font-bold mb-2 text-gray-900 dark:text-white">Orthotic Design Automation</h3>
+                            <p class="text-gray-600 dark:text-gray-400 mb-4">Performed R&D and prototyping in 3D printed orthotic design process</p>
+                            <div class="flex flex-wrap gap-2 mb-4">
+                                <span class="tag bg-fuchsia-100 text-fuchsia-800 dark:bg-fuchsia-900 dark:text-fuchsia-200">Blender</span>
+                                <span class="tag bg-gray-200 text-gray-800 dark:bg-gray-700 dark:text-gray-200">Python</span>
+                            </div>
+                            <button class="btn-details">View Details</button>
+                        </div>
+                    </div>
+                    <!-- Project 3 -->
+                    <div class="project-card"
+                         data-title="CNC Path Optimizer"
+                         data-description="A web-based tool developed with JavaScript and Three.js that visualizes and optimizes G-code paths for 3-axis CNC machines. It reduces air-time,  machining duration and the probability of machining defects by reordering paths and applying smoothing algorithms, resulting in faster production and better surface finishes."
+                         data-media-type="video"
+                         data-media-src="https://www.w3schools.com/html/mov_bbb.mp4">
+                        <img src="https://placehold.co/800x600/A78BFA/FFFFFF?text=Project+3" alt="CNC Path Optimizer" class="w-full h-48 object-cover rounded-t-lg">
+                        <div class="p-6">
+                            <h3 class="text-xl font-bold mb-2 text-gray-900 dark:text-white">CNC Path Optimizer</h3>
+                            <p class="text-gray-600 dark:text-gray-400 mb-4">A web tool to visualize and optimize G-code for granite CNC machines.</p>
+                            <div class="flex flex-wrap gap-2 mb-4">
+                                <span class="tag bg-amber-100 text-amber-800 dark:bg-amber-900 dark:text-amber-200">JavaScript</span>
+                                <span class="tag bg-indigo-100 text-indigo-800 dark:bg-indigo-900 dark:text-indigo-200">Three.js</span>
+                            </div>
+                            <button class="btn-details">View Details</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Research & Publications Section -->
+        <section id="research" class="py-20 md:py-32 bg-gray-50 dark:bg-gray-800/50 scroll-mt-16">
+            <div class="container mx-auto px-6 max-w-4xl">
+                <h2 class="section-title text-center mb-12">Research & Publications</h2>
+                <ul class="space-y-8">
+                    <li class="research-item">
+                        <h3 class="text-xl font-bold text-gray-900 dark:text-white">Paper Title One: Advancements in Parametric Modeling</h3>
+                        <p class="text-gray-600 dark:text-gray-400">Journal of Computational Design, 2023</p>
+                        <a href="#" class="text-sky-600 dark:text-sky-400 hover:underline">View PDF <i class="fas fa-external-link-alt text-xs ml-1"></i></a>
+                    </li>
+                    <li class="research-item">
+                        <h3 class="text-xl font-bold text-gray-900 dark:text-white">Paper Title Two: AI-Driven Toolpath Generation</h3>
+                        <p class="text-gray-600 dark:text-gray-400">International Conference on Manufacturing Automation, 2022</p>
+                        <a href="#" class="text-sky-600 dark:text-sky-400 hover:underline">View PDF <i class="fas fa-external-link-alt text-xs ml-1"></i></a>
+                    </li>
+                </ul>
+            </div>
+        </section>
+
+        <!-- Hackathons & Prizes Section -->
+        <section id="hackathons" class="py-20 md:py-32 scroll-mt-16">
+            <div class="container mx-auto px-6 max-w-4xl">
+                <h2 class="section-title text-center mb-12">Hackathons & Awards</h2>
+                <ul class="space-y-6 text-lg text-center md:text-left">
+                    <li><span class="text-2xl">🏆</span> <strong>1st Place</strong> - FinCapDev (Financial), 2013 - <em>Developed an app for collaborative purchasing of bulk goods</em></li>
+                    <li><span class="text-2xl">🏅</span> <strong>2nd Place</strong> - AEC Hack (Architecture, Engineering and Construction), 2014 - <em>Created a browser based viewer for architectural models</em></li>
+                    <li><span class="text-2xl">🧑‍🏫</span> <strong>Mentor</strong> - Rutgers Health Hack, 2025 - <em>Guided student teams on software architecture and design.</em></li>
+                </ul>
+            </div>
+        </section>
+
+        <!-- Contact Section -->
+        <section id="contact" class="py-20 md:py-32 bg-gray-50 dark:bg-gray-800/50 scroll-mt-16">
+            <div class="container mx-auto px-6 text-center">
+                <h2 class="text-3xl md:text-4xl font-display font-bold text-gray-900 dark:text-white mb-4">Let's build something amazing together.</h2>
+                <p class="text-lg text-gray-600 dark:text-gray-400 mb-8">I'm currently open to new opportunities and collaborations.</p>
+                <a href="mailto:femiking at gmx.de" class="text-2xl font-medium text-sky-600 dark:text-sky-400 hover:underline mb-8 inline-block">femiking at gmx.de</a>
+                <div class="flex justify-center space-x-6 text-3xl mb-8">
+                    <a href="#" aria-label="LinkedIn" class="text-gray-500 dark:text-gray-400 hover:text-sky-600 dark:hover:text-sky-400 transition-colors"><i class="fab fa-linkedin"></i></a>
+                    <a href="#" aria-label="GitHub" class="text-gray-500 dark:text-gray-400 hover:text-sky-600 dark:hover:text-sky-400 transition-colors"><i class="fab fa-github"></i></a>
+                </div>
+                <a href="#" class="btn btn-primary">Download My Resume</a>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-gray-100 dark:bg-gray-900 py-6">
+        <div class="container mx-auto px-6 text-center text-gray-600 dark:text-gray-400">
+            <p>&copy; 2025 Femi King. All Rights Reserved.</p>
+        </div>
+    </footer>
+
+    <!-- Project Modal -->
+    <div id="project-modal" class="hidden fixed inset-0 bg-black bg-opacity-70 z-50 flex items-center justify-center p-4">
+        <div id="modal-content" class="bg-white dark:bg-gray-800 rounded-lg shadow-2xl w-full max-w-4xl max-h-[90vh] overflow-y-auto relative transform scale-95 transition-transform duration-300">
+            <!-- Modal Header -->
+            <div class="flex justify-between items-center p-6 border-b border-gray-200 dark:border-gray-700 sticky top-0 bg-white dark:bg-gray-800 z-10">
+                <h3 id="modal-title" class="text-2xl font-bold text-gray-900 dark:text-white"></h3>
+                <button id="modal-close-button" class="text-gray-500 hover:text-gray-900 dark:hover:text-white text-3xl">&times;</button>
+            </div>
+            <!-- Modal Body -->
+            <div class="p-6">
+                <div class="grid md:grid-cols-2 gap-8">
+                    <div>
+                        <h4 class="text-lg font-bold mb-2 text-gray-800 dark:text-gray-200">Project Description</h4>
+                        <p id="modal-description" class="text-gray-600 dark:text-gray-400"></p>
+                    </div>
+                    <div id="modal-media-container" class="w-full min-h-[300px] bg-gray-100 dark:bg-gray-700 rounded-lg flex items-center justify-center">
+                        <!-- Media will be injected here by JS -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- JavaScript -->
+    <script src="js/main.js" defer></script>
+</body>
+</html>
